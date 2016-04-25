@@ -11,7 +11,7 @@ if os.name == 'nt':
    clr = 'cls'
 
 def main():
-  repos = {'DuckIt-Backend':'~/DuckIt-Backend'}
+  repos = {'DuckIt-Backend':'~/DuckIt-Backend/deploy.sh'}
   application = tornado.web.Application([(r"/", webhook.HookHandler)],
               debug=True, serve_traceback=True, autoreload=True)
   print "Server is now at: 127.0.0.1:8000"
@@ -29,3 +29,4 @@ def main():
 if __name__ == '__main__':
    os.system(clr)
    main()
+
