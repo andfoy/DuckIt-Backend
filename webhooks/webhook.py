@@ -16,4 +16,4 @@ class HookHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def post(self):
-        print self.request.body_arguments
+        print self.request.body
