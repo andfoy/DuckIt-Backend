@@ -12,15 +12,17 @@ if os.name == 'nt':
    clr = 'cls'
 
 def main():
-  with open('../secret.k', 'rb') as fp:
-       lines = fp.readlines()
-  line = lines[0]
-  secret = base64.b64decode(line)
+  secret = os.environ.get('WEBHOOK_SECRET')
+  if not secret:
+     print "Webhook secret variable must be defined in the current environment"
+     sys.exit(-1)
+  secret = base64.b64decode(secret)
   repos = {'DuckIt-Backend':'~/DuckIt-Backend/deploy.sh'}
   application = tornado.web.Application([(r"/", webhook.HookHandler)],
               debug=True, serve_traceback=True, autoreload=True)
   print "Server is now at: 127.0.0.1:8000"
   ioloop = tornado.ioloop.IOLoop.instance()
+  application.signature = secret
   application.repos = repos
   application.listen(8000)
   try:
