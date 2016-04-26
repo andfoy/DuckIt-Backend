@@ -2,6 +2,7 @@
 
 import os
 import sys
+import base64
 import webhook
 import tornado.web
 import tornado.ioloop
@@ -11,6 +12,10 @@ if os.name == 'nt':
    clr = 'cls'
 
 def main():
+  with open('../secret.k', 'rb') as fp:
+       lines = fp.readlines()
+  line = lines[0]
+  secret = base64.b64decode(line)
   repos = {'DuckIt-Backend':'~/DuckIt-Backend/deploy.sh'}
   application = tornado.web.Application([(r"/", webhook.HookHandler)],
               debug=True, serve_traceback=True, autoreload=True)
