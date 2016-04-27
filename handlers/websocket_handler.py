@@ -11,6 +11,9 @@ import tornado.escape
 import tornado.websocket
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
+
+	def check_origin(self, origin):
+        return True
  
     def open(self, *args, **kwargs):
         # self.application.pc.add_event_listener(self)
