@@ -12,7 +12,7 @@ import tornado.websocket
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
-	def check_origin(self, origin):
+    def check_origin(self, origin):
         return True
  
     def open(self, *args, **kwargs):
@@ -22,7 +22,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print("WebSocket opened")
 
     def on_close(self):
-    	self.application.redis.remove_listener(self._id)
+        self.application.redis.remove_listener(self._id)
         print("WebSocket closed")
         #self.application.outq.remove_listener(self.sec_num)
         # self.application.pc.remove_event_listener(self)
@@ -31,4 +31,4 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print message
 
     def notify(self, message):
-    	self.write_message(message[2])
+        self.write_message(message[2])
