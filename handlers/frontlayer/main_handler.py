@@ -11,8 +11,8 @@ class MainHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def get(self):
-    	self.render('../static/starter.html')
+        self.render('../../static/starter.html')
 
     @tornado.gen.coroutine
     def post(self):
-    	self.status_code(403)
+        self.status_code(403)

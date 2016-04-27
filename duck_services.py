@@ -6,9 +6,8 @@ import logging
 import tornado.web
 import coloredlogs
 import tornado.ioloop
-from middleware import redis_consumer
-from handlers.frontlayer import main_handler
-from handlers.frontlayer import websocket_handler
+from middleware import redis_publisher
+from handlers.backlayer import services_handler
 
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) '
               '-35s %(lineno) -5d: %(message)s')
@@ -20,16 +19,13 @@ if os.name == 'nt':
    clr = 'cls'
 
 def main():
-  settings = {"static_path": os.path.join(os.path.dirname(__file__), "static")}
-  application = tornado.web.Application([(r"/", main_handler.MainHandler),
-                (r'/feed', websocket_handler.WebSocketHandler)],
-              debug=True, serve_traceback=True, autoreload=True, **settings)
-  print "Server is now at: 127.0.0.1:8001"
+  application = tornado.web.Application([(r"/duckit", services_handler.ServicesHandler)],
+              debug=True, serve_traceback=True, autoreload=True)
+  print "Server is now at: 127.0.0.1:8002"
   ioloop = tornado.ioloop.IOLoop.instance()
-  redis = redis_consumer.RedisConsumer()
+  redis = redis_publisher.RedisPublisher()
   application.redis = redis
-  application.redis.consume()
-  application.listen(8001)
+  application.listen(8002)
   try:
     ioloop.start()
   except KeyboardInterrupt:
