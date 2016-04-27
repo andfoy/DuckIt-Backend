@@ -22,6 +22,7 @@ def main():
   application = tornado.web.Application([(r"/duckit", services_handler.ServicesHandler)],
               debug=True, serve_traceback=True, autoreload=True)
   print "Server is now at: 127.0.0.1:8002"
+  print "Press Ctrl-C to Stop"
   ioloop = tornado.ioloop.IOLoop.instance()
   redis = redis_publisher.RedisPublisher()
   application.redis = redis
